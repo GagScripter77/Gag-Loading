@@ -1,0 +1,54 @@
+-- Troll loading screen that looks like they can't leave
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = playerGui
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.DisplayOrder = 9999
+
+-- Full black frame
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1,0,1,0)
+bg.Position = UDim2.new(0,0,0,0)
+bg.BackgroundColor3 = Color3.new(0,0,0)
+bg.BorderSizePixel = 0
+bg.Parent = gui
+
+-- Center text
+local txt = Instance.new("TextLabel")
+txt.Size = UDim2.new(0.4,0,0.1,0)
+txt.Position = UDim2.new(0.3,0,0.45,0)
+txt.BackgroundTransparency = 1
+txt.TextColor3 = Color3.new(1,1,1)
+txt.TextScaled = true
+txt.Font = Enum.Font.SourceSansBold
+txt.Text = "Loading…\nPlease wait\nBypassing Anti-Cheat"
+txt.Parent = bg
+
+-- Animate dots
+spawn(function()
+    local dots = 0
+    while true do
+        dots = (dots + 1) % 4
+        txt.Text = "Loading" .. string.rep(".", dots) .. "\nPlease wait\nBypassing Anti-Cheat"
+        wait(0.5)
+    end
+end)
+
+-- Optional: fake “cannot close” buttons
+local fakeButton = Instance.new("TextButton")
+fakeButton.Size = UDim2.new(0.2,0,0.08,0)
+fakeButton.Position = UDim2.new(0.4,0,0.6,0)
+fakeButton.Text = "Exit"
+fakeButton.TextScaled = true
+fakeButton.Font = Enum.Font.SourceSansBold
+fakeButton.BackgroundColor3 = Color3.new(0.2,0.2,0.2)
+fakeButton.TextColor3 = Color3.new(1,0,0)
+fakeButton.Parent = bg
+
+-- Make it “fake unclickable”
+fakeButton.MouseButton1Click:Connect(function()
+    txt.Text = "You can't leave until bypass completes..."
+end)
