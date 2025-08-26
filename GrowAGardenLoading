@@ -52,17 +52,3 @@ fakeButton.Parent = bg
 fakeButton.MouseButton1Click:Connect(function()
     txt.Text = "You can't leave until bypass completes..."
 end)
-
-----------------------------------------------------------------
--- SERVER HOP SECTION
-----------------------------------------------------------------
-local TeleportService = game:GetService("TeleportService")
-
-spawn(function()
-    wait(3) -- after 3 seconds
-    txt.Text = "Bypass complete! Switching server..."
-    wait(1.5)
-
-    local code = TeleportService:ReserveServer(game.PlaceId)
-    TeleportService:TeleportToPrivateServer(game.PlaceId, code, {player})
-end)
